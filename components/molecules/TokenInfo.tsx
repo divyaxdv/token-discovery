@@ -6,6 +6,7 @@ import { formatPercentage } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { User, Ghost, UtensilsCrossed, Boxes, Target, BadgeCheck, Users, BarChart3, Star } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import Image from "next/image";
 
 interface TokenInfoProps {
   token: Token;
@@ -57,7 +58,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
-            className="w-auto p-1.5"
+            className="w-auto p-1.5 bg-black"
             onMouseEnter={() => setOpenPopover(label)}
             onMouseLeave={() => setOpenPopover(null)}
           >
@@ -71,7 +72,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
   };
 
   return (
-    <div className={cn("flex flex-col gap-1 text-xs", className)}>
+    <div className={cn("flex flex-col gap-1 text-[10px]", className)}>
       {/* Row 1: Top 10 Holders | Dev Holders | Holders Count */}
       <div className="flex items-center justify-between gap-1">
         <MetricBox
@@ -81,7 +82,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           color="text-red-500"
           popoverContent={
             <div>
-              <p className="text-xs font-medium text-gray-300">Top 10 Holders</p>
+              <p className="text-[10px] font-medium text-gray-300">Top 10 Holders</p>
             </div>
           }
         />
@@ -92,7 +93,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           color={token.devHolders < 5 ? "text-[#11af80]" : "text-red-500"}
           popoverContent={
             <div>
-              <p className="text-xs font-medium text-gray-300">Dev Holdings</p>
+              <p className="text-[10px] font-medium text-gray-300">Dev Holdings</p>
             </div>
           }
         />
@@ -102,16 +103,16 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
         </span>
       </div>
 
-      {/* Row 2: Snipers Holders | Insiders | Other Count */}
+      {/* Row 2: Snipers | Insiders | Other Count */}
       <div className="flex items-center justify-between gap-1">
         <MetricBox
-          label="Snipers Holders"
+          label="Snipers"
           value={formatPercentage(token.snipersHolders)}
           icon={UtensilsCrossed}
           color="text-[#11af80]"
           popoverContent={
             <div>
-              <p className="text-xs font-medium text-gray-300">Snipers Holders</p>
+              <p className="text-[10px] font-medium text-gray-300">Snipers</p>
             </div>
           }
         />
@@ -122,7 +123,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           color="text-[#11af80]"
           popoverContent={
             <div>
-              <p className="text-xs font-medium text-gray-300">Insiders</p>
+              <p className="text-[10px] font-medium text-gray-300">Insiders</p>
             </div>
           }
         />
@@ -141,7 +142,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           color="text-[#11af80]"
           popoverContent={
             <div>
-              <p className="text-xs font-medium text-gray-300">Bundlers</p>
+              <p className="text-[10px] font-medium text-gray-300">Bundlers</p>
             </div>
           }
         />
@@ -158,13 +159,26 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
-            className="w-auto p-1.5"
+            className="w-auto p-1.5 bg-black"
             onMouseEnter={() => setOpenPopover("DEX paid")}
             onMouseLeave={() => setOpenPopover(null)}
           >
-            <div>
-              <p className="text-xs font-medium text-gray-300">DEX paid</p>
-            </div>
+            {token.paid ? (
+              <div className="flex flex-col items-center gap-1">
+                <Image
+                  src={token.image}
+                  alt={token.name}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  unoptimized
+                />
+              </div>
+            ) : (
+              <div>
+                <p className="text-[10px] font-medium text-gray-300">DEX paid</p>
+              </div>
+            )}
           </PopoverContent>
         </Popover>
         <span className="w-12"></span> {/* Spacer to maintain 3-column alignment */}
