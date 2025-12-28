@@ -10,7 +10,7 @@ export function TableSkeleton() {
   return (
     <>
       {Array.from({ length: 10 }).map((_, i) => (
-        <tr key={i} className="border-b border-gray-400">
+        <tr key={i} className="border-b border-gray-700/50">
           <td className="px-4 py-3">
             <div className="flex items-center gap-3">
               <Skeleton className="h-10 w-10 rounded-full" />

@@ -35,26 +35,38 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
     dispatch(setModalOpen(true));
   };
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(token.id);
+      // You could add a toast notification here if needed
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   return (
     <tr
       className={cn(
-        "border-b border-gray-400 transition-colors duration-200",
-        isHovered && "bg-gray-900/50"
+        "border-b border-gray-700/50 transition-colors duration-200",
+        isHovered && "bg-gray-800/50"
       )}
       onMouseEnter={() => dispatch(setHoveredToken(token.id))}
       onMouseLeave={() => dispatch(setHoveredToken(null))}
     >
       {/* Pair Info */}
-      <td className="px-2 sm:px-4 py-3">
+      <td className="px-6 sm:px-8 py-4">
         <div className="flex items-center gap-2 sm:gap-3">
           <TokenImage token={token} size={40} className="hidden sm:block" />
           <TokenImage token={token} size={32} className="block sm:hidden" />
           <div className="flex flex-col min-w-0 flex-1">
             <div className="flex items-center gap-1 sm:gap-2">
-              <span className="text-xs sm:text-sm font-medium truncate">{token.name}</span>
+              <span className="text-xs sm:text-sm font-bold text-white hover:text-blue-500 transition-colors cursor-pointer truncate">{token.name}</span>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-300 transition-colors">
+                  <button 
+                    onClick={handleCopy}
+                    className="text-gray-500 hover:text-gray-400 transition-colors"
+                  >
                     <Clipboard className="h-4 w-4" />
                   </button>
                 </TooltipTrigger>
@@ -62,10 +74,10 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
             </div>
             <div className="flex items-center gap-1 sm:gap-2 mt-1 flex-wrap">
-              <span className="text-xs text-gray-500">{token.age}</span>
+              <span className="text-xs text-[#11af80] font-medium">{token.age}</span>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-300 transition-colors">
+                  <button className="text-blue-500 hover:text-blue-400 transition-colors">
                     <Users className="h-3 w-3" />
                   </button>
                 </TooltipTrigger>
@@ -73,7 +85,7 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-300 transition-colors hidden sm:inline-flex">
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex">
                     <Globe className="h-3 w-3" />
                   </button>
                 </TooltipTrigger>
@@ -81,7 +93,7 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-300 transition-colors hidden sm:inline-flex">
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex">
                     <Search className="h-3 w-3" />
                   </button>
                 </TooltipTrigger>
@@ -89,9 +101,9 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
               <Popover>
                 <PopoverTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-1">
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors flex items-center gap-1">
                     <Eye className="h-3 w-3" />
-                    <span className="text-xs hidden sm:inline">{Math.floor(Math.random() * 500)}</span>
+                    <span className="text-xs text-gray-500 hidden sm:inline">{Math.floor(Math.random() * 500)}</span>
                   </button>
                 </PopoverTrigger>
                 <PopoverContent>
@@ -107,27 +119,27 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
       </td>
 
       {/* Chart */}
-      <td className="px-2 sm:px-4 py-3">
+      <td className="px-6 sm:px-8 py-4">
         <MiniChart token={token} timePeriod={timePeriod} />
       </td>
 
       {/* Market Cap */}
-      <td className="px-2 sm:px-4 py-3">
+      <td className="px-6 sm:px-8 py-4">
         <PriceDisplay value={token.marketCap} change={token.priceChange[timePeriod]} />
       </td>
 
       {/* Liquidity */}
-      <td className="px-2 sm:px-4 py-3 hidden md:table-cell">
+      <td className="px-6 sm:px-8 py-4 hidden md:table-cell">
         <span className="text-sm">{formatCurrency(token.liquidity)}</span>
       </td>
 
       {/* Volume */}
-      <td className="px-2 sm:px-4 py-3">
+      <td className="px-6 sm:px-8 py-4">
         <span className="text-sm">{formatCurrency(token.volume)}</span>
       </td>
 
       {/* TXNS */}
-      <td className="px-2 sm:px-4 py-3 hidden sm:table-cell">
+      <td className="px-6 sm:px-8 py-4 hidden sm:table-cell">
         <TransactionDisplay
           total={token.transactions.total}
           buys={token.transactions.buys}
@@ -136,13 +148,13 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
       </td>
 
       {/* Token Info */}
-      <td className="px-2 sm:px-4 py-3 hidden lg:table-cell">
+      <td className="px-6 sm:px-8 py-4 hidden lg:table-cell">
         <TokenInfo token={token} />
       </td>
 
       {/* Action */}
-      <td className="px-2 sm:px-4 py-3">
-        <Button onClick={handleBuy} size="sm" className="w-full text-xs sm:text-sm">
+      <td className="px-6 sm:px-8 py-4">
+        <Button onClick={handleBuy} size="sm" className="w-full text-xs sm:text-sm rounded-full text-black bg-[#526fff] hover:bg-[#4255d4]">
           Buy
         </Button>
       </td>
