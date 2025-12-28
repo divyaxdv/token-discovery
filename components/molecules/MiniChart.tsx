@@ -15,7 +15,11 @@ interface MiniChartProps {
  * Mini sparkline chart for token price history
  * Updates based on selected time period
  */
-export const MiniChart = memo(function MiniChart({ token, timePeriod, className }: MiniChartProps) {
+export const MiniChart = memo(function MiniChart({
+  token,
+  timePeriod,
+  className,
+}: MiniChartProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   // Get price history for the selected time period
@@ -27,8 +31,10 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
 
   // Determine color based on price change for the selected time period
   const priceChange = token.priceChange[timePeriod] || 0;
-  const lineColor = priceChange > 0 ? "#2fe3ac" : priceChange < 0 ? "#a92d5b" : "#9ca3af";
-  const areaColor = priceChange > 0 ? "#2fe3ac" : priceChange < 0 ? "#a92d5b" : "#9ca3af";
+  const lineColor =
+    priceChange > 0 ? "#2fe3ac" : priceChange < 0 ? "#a92d5b" : "#9ca3af";
+  const areaColor =
+    priceChange > 0 ? "#2fe3ac" : priceChange < 0 ? "#a92d5b" : "#9ca3af";
 
   const CustomDot = (props: any) => {
     const { cx, cy, index } = props;
@@ -48,13 +54,13 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
   };
 
   return (
-    <div 
+    <div
       className={cn("h-8 w-16 sm:h-9 sm:w-18 md:h-10 md:w-20", className)}
       onMouseLeave={() => setActiveIndex(null)}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart 
-          data={data} 
+        <AreaChart
+          data={data}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           onMouseMove={(state) => {
             if (state && state.activeTooltipIndex !== undefined) {
@@ -63,7 +69,13 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
           }}
         >
           <defs>
-            <linearGradient id={`gradient-${token.id}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient
+              id={`gradient-${token.id}`}
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
               <stop offset="0%" stopColor={areaColor} stopOpacity={0.5} />
               <stop offset="100%" stopColor={areaColor} stopOpacity={0.15} />
             </linearGradient>
@@ -84,4 +96,3 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
     </div>
   );
 });
-

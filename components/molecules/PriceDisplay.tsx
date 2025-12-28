@@ -23,10 +23,10 @@ export const PriceDisplay = memo(function PriceDisplay({
 
   return (
     <div className={cn("flex flex-col", className)}>
-      <span className="text-xs sm:text-sm font-medium">{formatCurrency(value)}</span>
+      <span className="text-sm sm:text-sm md:text-base font-medium">{formatCurrency(value)}</span>
       {change !== undefined && (
         <span
-          className={cn("text-[10px] sm:text-xs transition-colors duration-300", {
+          className={cn("text-[11px] sm:text-xs transition-colors duration-300", {
             "text-[#2fe3ac]": isPositive,
             "text-[rgb(236,56,122)]": !isPositive,
           })}

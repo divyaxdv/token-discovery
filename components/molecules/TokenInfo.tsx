@@ -40,7 +40,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
 
     const content = (
       <span className={cn("flex items-center gap-1 px-2 py-1 rounded border border-gray-700/20 cursor-pointer", color)}>
-        <Icon className="h-3 w-3" />
+        <Icon className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
         {value}
       </span>
     );
@@ -72,7 +72,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
   };
 
   return (
-    <div className={cn("flex flex-col gap-1 text-[10px]", className)}>
+    <div className={cn("flex flex-col gap-1 text-[11px] sm:text-[10px]", className)}>
       {/* Row 1: Top 10 Holders | Dev Holders | Holders Count */}
       <div className="flex items-center justify-between gap-1">
         <MetricBox
@@ -98,7 +98,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           }
         />
         <span className="flex items-center gap-1 px-2 py-1 rounded border border-gray-700/20 text-gray-400">
-          <Users className="h-3 w-3" />
+          <Users className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
           {token.holders}
         </span>
       </div>
@@ -128,7 +128,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           }
         />
         <span className="flex items-center gap-1 px-2 py-1 rounded border border-gray-700/20 text-gray-400">
-          <BarChart3 className="h-3 w-3" />
+          <BarChart3 className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
           {token.otherCount}
         </span>
       </div>
@@ -153,7 +153,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
               onMouseEnter={() => setOpenPopover("DEX paid")}
               onMouseLeave={() => setOpenPopover(null)}
             >
-              <BadgeCheck className="h-3 w-3" />
+              <BadgeCheck className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
               {token.paid ? "Paid" : "Unpaid"}
             </span>
           </PopoverTrigger>
