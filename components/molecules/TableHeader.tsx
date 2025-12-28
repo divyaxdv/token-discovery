@@ -37,7 +37,7 @@ export const TableHeader = memo(function TableHeader({
   return (
     <th
       className={cn(
-        "px-2 sm:px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider",
+        "px-6 sm:px-8 py-4 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider",
         canSort && "cursor-pointer hover:text-gray-300 transition-colors",
         className
       )}
