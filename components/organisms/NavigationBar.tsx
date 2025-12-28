@@ -36,9 +36,9 @@ export const NavigationBar = memo(function NavigationBar({
 
   return (
     <div className="border-b border-gray-800 bg-[#0a0a0a]">
-      <div className="container mx-auto px-2 sm:px-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4">
-          <div className="flex flex-wrap items-center gap-2">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 py-3 sm:py-4">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             {filters.map((f) => (
               <Button
                 key={f.key}
@@ -46,7 +46,7 @@ export const NavigationBar = memo(function NavigationBar({
                 size="sm"
                 onClick={() => onFilterChange(f.key)}
                 className={cn(
-                  "text-xs sm:text-sm",
+                  "text-[10px] sm:text-xs md:text-sm touch-manipulation min-h-[32px] sm:min-h-[36px] px-2 sm:px-3",
                   filter === f.key && "bg-blue-600 hover:bg-blue-700"
                 )}
               >
@@ -55,8 +55,8 @@ export const NavigationBar = memo(function NavigationBar({
             ))}
           </div>
           
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 text-xs sm:text-sm">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs md:text-sm">
               <span className="hidden sm:inline text-gray-400">||</span>
               {timePeriods.map((tp) => (
                 <Button
@@ -64,7 +64,7 @@ export const NavigationBar = memo(function NavigationBar({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "text-xs px-2",
+                    "text-[10px] sm:text-xs px-1.5 sm:px-2 touch-manipulation min-h-[32px] sm:min-h-[36px]",
                     timePeriod === tp.key 
                       ? "text-blue-500 bg-transparent hover:bg-transparent" 
                       : "text-white bg-transparent hover:bg-transparent",

@@ -20,9 +20,9 @@ export const TransactionDisplay = memo(function TransactionDisplay({
   className,
 }: TransactionDisplayProps) {
   return (
-    <div className={cn("flex flex-col gap-1", className)}>
-      <span className="text-sm">{total}</span>
-      <div className="flex gap-2 text-xs">
+    <div className={cn("flex flex-col gap-0.5 sm:gap-1", className)}>
+      <span className="text-xs sm:text-sm">{total}</span>
+      <div className="flex gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
         <span className="text-[#2fe3ac]">{buys}</span>
         <span className="text-gray-500">/</span>
         <span className="text-[rgb(236,56,122)]">{sells}</span>

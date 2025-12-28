@@ -54,13 +54,13 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
       onMouseLeave={() => dispatch(setHoveredToken(null))}
     >
       {/* Pair Info */}
-      <td className="px-6 sm:px-8 py-4">
-        <div className="flex items-center gap-2 sm:gap-3">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
+        <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3">
           <TokenImage token={token} size={40} className="hidden sm:block" />
-          <TokenImage token={token} size={32} className="block sm:hidden" />
+          <TokenImage token={token} size={24} className="block sm:hidden" />
           <div className="flex flex-col min-w-0 flex-1">
-            <div className="flex items-center gap-1 sm:gap-2">
-              <span className="text-xs sm:text-sm font-bold text-white hover:text-blue-500 transition-colors cursor-pointer truncate">{token.name}</span>
+            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
+              <span className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white hover:text-blue-500 transition-colors cursor-pointer truncate max-w-[80px] sm:max-w-[120px] md:max-w-none">{token.name}</span>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button 
@@ -73,19 +73,19 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
                 <TooltipContent>Copy contract address</TooltipContent>
               </Tooltip>
             </div>
-            <div className="flex items-center gap-1 sm:gap-2 mt-1 flex-wrap">
-              <span className="text-xs text-[#11af80] font-medium">{token.age}</span>
+            <div className="flex items-center gap-1 sm:gap-2 mt-0.5 sm:mt-1 flex-wrap">
+              <span className="text-[10px] sm:text-xs text-[#11af80] font-medium">{token.age}</span>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-blue-500 hover:text-blue-400 transition-colors">
-                    <Users className="h-3 w-3" />
+                  <button className="text-blue-500 hover:text-blue-400 transition-colors touch-manipulation">
+                    <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>View holders</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex">
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex touch-manipulation">
                     <Globe className="h-3 w-3" />
                   </button>
                 </TooltipTrigger>
@@ -93,7 +93,7 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex">
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors hidden sm:inline-flex touch-manipulation">
                     <Search className="h-3 w-3" />
                   </button>
                 </TooltipTrigger>
@@ -101,9 +101,9 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
               </Tooltip>
               <Popover>
                 <PopoverTrigger asChild>
-                  <button className="text-gray-500 hover:text-gray-400 transition-colors flex items-center gap-1">
-                    <Eye className="h-3 w-3" />
-                    <span className="text-xs text-gray-500 hidden sm:inline">{Math.floor(Math.random() * 500)}</span>
+                  <button className="text-gray-500 hover:text-gray-400 transition-colors flex items-center gap-1 touch-manipulation">
+                    <Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                    <span className="text-[10px] sm:text-xs text-gray-500 hidden sm:inline">{Math.floor(Math.random() * 500)}</span>
                   </button>
                 </PopoverTrigger>
                 <PopoverContent>
@@ -119,27 +119,27 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
       </td>
 
       {/* Chart */}
-      <td className="px-6 sm:px-8 py-4">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
         <MiniChart token={token} timePeriod={timePeriod} />
       </td>
 
       {/* Market Cap */}
-      <td className="px-6 sm:px-8 py-4">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
         <PriceDisplay value={token.marketCap} change={token.priceChange[timePeriod]} />
       </td>
 
       {/* Liquidity */}
-      <td className="px-6 sm:px-8 py-4 hidden md:table-cell">
-        <span className="text-sm">{formatCurrency(token.liquidity)}</span>
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4 hidden md:table-cell">
+        <span className="text-[10px] sm:text-xs md:text-sm">{formatCurrency(token.liquidity)}</span>
       </td>
 
       {/* Volume */}
-      <td className="px-6 sm:px-8 py-4">
-        <span className="text-sm">{formatCurrency(token.volume)}</span>
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
+        <span className="text-[10px] sm:text-xs md:text-sm">{formatCurrency(token.volume)}</span>
       </td>
 
       {/* TXNS */}
-      <td className="px-6 sm:px-8 py-4 hidden sm:table-cell">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
         <TransactionDisplay
           total={token.transactions.total}
           buys={token.transactions.buys}
@@ -148,13 +148,13 @@ export const TokenTableRow = memo(function TokenTableRow({ token }: TokenTableRo
       </td>
 
       {/* Token Info */}
-      <td className="px-6 sm:px-8 py-4 hidden lg:table-cell">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
         <TokenInfo token={token} />
       </td>
 
       {/* Action */}
-      <td className="px-6 sm:px-8 py-4">
-        <Button onClick={handleBuy} size="sm" className="w-full text-xs sm:text-sm rounded-full text-black bg-[#526fff] hover:bg-[#4255d4]">
+      <td className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4">
+        <Button onClick={handleBuy} size="sm" className="w-full text-[9px] sm:text-[10px] md:text-xs lg:text-sm rounded-full text-black bg-[#526fff] hover:bg-[#4255d4] touch-manipulation min-h-[28px] sm:min-h-[32px] md:min-h-[36px] px-2 sm:px-3">
           Buy
         </Button>
       </td>

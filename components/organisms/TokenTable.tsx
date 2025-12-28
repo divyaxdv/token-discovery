@@ -56,7 +56,7 @@ export function TokenTable() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-[#0a0a0a]">
+      <div className="min-h-screen bg-[#0a0a0a] w-full overflow-x-hidden">
         <NavigationBar 
           filter={filter} 
           onFilterChange={handleFilter}
@@ -64,10 +64,10 @@ export function TokenTable() {
           onTimePeriodChange={handleTimePeriodChange}
         />
         
-        <div className="w-full px-2 sm:px-6 py-6">
-          <div className="overflow-x-auto -mx-2 sm:mx-0">
-            <div className="rounded-lg border border-gray-700/50 overflow-hidden bg-[#111111]">
-              <table className="w-full border-collapse min-w-[1200px]">
+        <div className="w-full max-w-full px-1 sm:px-2 md:px-4 lg:px-6 py-3 sm:py-4 md:py-6">
+          <div className="overflow-x-auto -mx-1 sm:-mx-2 md:mx-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+            <div className="rounded-lg border border-gray-700/50 overflow-hidden bg-[#111111] inline-block min-w-full">
+              <table className="w-full border-collapse min-w-[450px] sm:min-w-[650px] md:min-w-[850px] lg:min-w-[1050px] xl:min-w-[1200px]">
                 <thead>
                   <tr className="border-b border-gray-700/50">
                     <TableHeader label="Pair Info" />
@@ -100,9 +100,8 @@ export function TokenTable() {
                       currentSort={sortBy}
                       sortOrder={sortOrder}
                       onSort={handleSort}
-                      className="hidden sm:table-cell"
                     />
-                    <TableHeader label="Token Info" className="hidden lg:table-cell" />
+                    <TableHeader label="Token Info" />
                     <TableHeader label="Action" />
                   </tr>
                 </thead>

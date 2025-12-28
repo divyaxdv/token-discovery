@@ -58,7 +58,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
-            className="w-auto p-1.5 bg-black"
+            className="w-auto p-1.5 bg-black border-0 shadow-none"
             onMouseEnter={() => setOpenPopover(label)}
             onMouseLeave={() => setOpenPopover(null)}
           >
@@ -159,7 +159,7 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
-            className="w-auto p-1.5 bg-black"
+            className="w-auto p-1.5 bg-black border-0 shadow-none"
             onMouseEnter={() => setOpenPopover("DEX paid")}
             onMouseLeave={() => setOpenPopover(null)}
           >

@@ -49,7 +49,7 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
 
   return (
     <div 
-      className={cn("h-10 w-20", className)}
+      className={cn("h-8 w-16 sm:h-9 sm:w-18 md:h-10 md:w-20", className)}
       onMouseLeave={() => setActiveIndex(null)}
     >
       <ResponsiveContainer width="100%" height="100%">

@@ -37,27 +37,14 @@ export const TableHeader = memo(function TableHeader({
   return (
     <th
       className={cn(
-        "px-6 sm:px-8 py-4 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider",
-        canSort && "cursor-pointer hover:text-gray-300 transition-colors",
+        "px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 py-2 sm:py-3 md:py-4 text-left text-[9px] sm:text-[10px] font-medium text-gray-400 uppercase tracking-wider",
+        canSort && "cursor-pointer hover:text-gray-300 transition-colors touch-manipulation",
         className
       )}
       onClick={handleClick}
     >
       <div className="flex items-center gap-2">
         <span>{label}</span>
-        {canSort && (
-          <span className="text-gray-500">
-            {isActive ? (
-              sortOrder === "asc" ? (
-                <ArrowUp className="h-3 w-3" />
-              ) : (
-                <ArrowDown className="h-3 w-3" />
-              )
-            ) : (
-              <ArrowUpDown className="h-3 w-3" />
-            )}
-          </span>
-        )}
       </div>
     </th>
   );
