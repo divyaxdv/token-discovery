@@ -21,24 +21,84 @@ function generateMockTokens(): Token[] {
   for (let i = 0; i < 20; i++) {
     const name = names[i % names.length];
     const marketCap = Math.random() * 200000 + 10000;
-    const basePriceChange = (Math.random() - 0.5) * 20;
-    const trend = basePriceChange > 0 ? "up" : basePriceChange < -2 ? "down" : "neutral";
+    
+    // Calculate base price from market cap (simplified: assume supply ~1M)
+    const estimatedSupply = 1000000;
+    const basePrice = marketCap / estimatedSupply;
+    
+    // Generate realistic price changes using percentage-based volatility
+    // Total 1h change: -10% to +10% range for more variation
+    const basePriceChange1h = (Math.random() - 0.5) * 20; // -10% to +10%
+    const trend = basePriceChange1h > 1 ? "up" : basePriceChange1h < -1 ? "down" : "neutral";
 
-    // Generate different price changes for each time period
-    const priceChange1h = basePriceChange;
-    const priceChange30m = basePriceChange * 0.7;
-    const priceChange5m = basePriceChange * 0.3;
-    const priceChange1m = basePriceChange * 0.1;
+    // Generate different price changes for each time period (cumulative)
+    const priceChange1h = basePriceChange1h;
+    const priceChange30m = basePriceChange1h * 0.7;
+    const priceChange5m = basePriceChange1h * 0.3;
+    const priceChange1m = basePriceChange1h * 0.1;
 
-    // Generate different price history arrays for each time period
-    const basePrice = 50 + Math.random() * 50;
-    const generatePriceHistory = (points: number, volatility: number) => {
+    // Generate price history with percentage-based volatility
+    // Each point represents a small percentage change from the previous price
+    // Add token-specific volatility multiplier for variation - some tokens are extremely volatile
+    const tokenVolatilityMultiplier = 1.0 + Math.random() * 4.0; // 1x to 5x volatility (very volatile)
+    
+    const generatePriceHistory = (
+      points: number,
+      minVolatilityPercent: number,
+      maxVolatilityPercent: number
+    ) => {
       const history: number[] = [];
       let currentPrice = basePrice;
+      let momentum = 0; // Track price momentum for more realistic trends
+      let reversalCounter = 0; // Track when to reverse trend
+      
       for (let j = 0; j < points; j++) {
-        currentPrice += (Math.random() - 0.5) * volatility;
-        history.push(Math.max(10, currentPrice));
+        // Generate percentage change within specified range, scaled by token volatility
+        const baseVolatility = minVolatilityPercent + 
+          Math.random() * (maxVolatilityPercent - minVolatilityPercent);
+        const volatilityPercent = baseVolatility * tokenVolatilityMultiplier;
+        
+        // Add momentum effect but with frequent reversals
+        const momentumFactor = momentum * 0.3; // Reduced to 30% to allow more reversals
+        
+        // Force reversals every few points to create up/down movement
+        reversalCounter++;
+        const shouldReverse = reversalCounter > 3 && Math.abs(momentum) > 2;
+        
+        // Apply percentage change: price * (1 + percentage/100)
+        // Direction: random with momentum influence, but force reversals
+        let direction;
+        if (shouldReverse) {
+          direction = momentum > 0 ? -1 : 1; // Reverse the trend
+          reversalCounter = 0; // Reset counter
+          momentum = 0; // Reset momentum on reversal
+        } else {
+          const randomDirection = Math.random() > 0.5 ? 1 : -1;
+          direction = Math.abs(momentumFactor) > 0.5 ? (momentumFactor > 0 ? 1 : -1) : randomDirection;
+        }
+        
+        // More frequent and larger moves (30% chance of 3x volatility, 10% chance of 5x)
+        const moveRoll = Math.random();
+        let moveMultiplier = 1;
+        if (moveRoll < 0.1) {
+          moveMultiplier = 5; // 10% chance of extreme move
+        } else if (moveRoll < 0.3) {
+          moveMultiplier = 3; // 20% chance of large move
+        }
+        const changePercent = direction * volatilityPercent * moveMultiplier;
+        
+        currentPrice = currentPrice * (1 + changePercent / 100);
+        
+        // Update momentum (faster decay to allow reversals)
+        momentum = momentum * 0.6 + changePercent * 0.3;
+        
+        // Ensure price doesn't go below 10% of base price
+        const minPrice = basePrice * 0.1;
+        currentPrice = Math.max(minPrice, currentPrice);
+        
+        history.push(currentPrice);
       }
+      
       return history;
     };
 
@@ -62,14 +122,24 @@ function generateMockTokens(): Token[] {
         "1h": priceChange1h,
       },
       snipers: Math.random() * 30,
-      holders: Math.floor(Math.random() * 1000) + 100,
-      paid: Math.random() > 0.5,
+      holders: Math.floor(Math.random() * 2400) + 200,
+      paid: Math.random() > 0.4, // 60% chance of paid
       age: `${Math.floor(Math.random() * 60)}m`,
+      top10Holders: 14 + Math.random() * 10, // 14% - 24%
+      devHolders: Math.random() * 15, // 0% - 15%
+      snipersHolders: Math.random() * 0.7, // 0% - 0.7%
+      insiders: 2.5 + Math.random() * 13, // 2.5% - 15.5%
+      bundlers: Math.random() * 0.7, // 0% - 0.7%
+      otherCount: Math.floor(Math.random() * 530) + 100, // 100 - 630
       priceHistory: {
-        "1m": generatePriceHistory(10, 2), // More volatile, fewer points
-        "5m": generatePriceHistory(15, 3),
-        "30m": generatePriceHistory(20, 5),
-        "1h": generatePriceHistory(20, 8), // Less volatile, more points
+        // 1m: Small deviations (1.5% - 5% per point), 12 points - dramatic swings
+        "1m": generatePriceHistory(12, 1.5, 5.0),
+        // 5m: Moderate deviations (2% - 8% per point), 18 points - very volatile
+        "5m": generatePriceHistory(18, 2.0, 8.0),
+        // 30m: Larger deviations (3% - 12% per point), 20 points - extreme volatility
+        "30m": generatePriceHistory(20, 3.0, 12.0),
+        // 1h: Cumulative changes (2.5% - 10% per point), 20 points - dramatic price swings
+        "1h": generatePriceHistory(20, 2.5, 10.0),
       },
       category: i < 7 ? "new" : i < 14 ? "final" : "migrated",
       trend,
