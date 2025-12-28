@@ -1,7 +1,7 @@
 "use client";
 
 import { memo } from "react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import { Token } from "@/types/token";
 import { cn } from "@/lib/utils";
 
@@ -23,24 +23,31 @@ export const MiniChart = memo(function MiniChart({ token, timePeriod, className 
     index,
   }));
 
-  // Determine color based on price change for the selected time period
-  const priceChange = token.priceChange[timePeriod] || 0;
-  const color = priceChange > 0 ? "#4ade80" : priceChange < 0 ? "#f87171" : "#9ca3af";
+  // Use vibrant teal/green color for the line and area
+  const lineColor = "#2fe3ac";
+  const areaColor = "#2fe3ac";
 
   return (
     <div className={cn("h-10 w-20", className)}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <Line
+        <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+          <defs>
+            <linearGradient id={`gradient-${token.id}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={areaColor} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={areaColor} stopOpacity={0.05} />
+            </linearGradient>
+          </defs>
+          <Area
             type="monotone"
             dataKey="value"
-            stroke={color}
+            stroke={lineColor}
             strokeWidth={2}
+            fill={`url(#gradient-${token.id})`}
             dot={false}
             isAnimationActive={true}
             animationDuration={300}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
