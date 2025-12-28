@@ -20,8 +20,8 @@ export const TokenImage = memo(function TokenImage({
   className,
 }: TokenImageProps) {
   const trendColors = {
-    up: "bg-green-500",
-    down: "bg-red-500",
+    up: "bg-[#2fe3ac]",
+    down: "bg-[#a92d5b]",
     neutral: "bg-gray-500",
   };
 

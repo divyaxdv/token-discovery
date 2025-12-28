@@ -27,8 +27,8 @@ export const PriceDisplay = memo(function PriceDisplay({
       {change !== undefined && (
         <span
           className={cn("text-xs transition-colors duration-300", {
-            "text-green-400": isPositive,
-            "text-red-400": !isPositive,
+            "text-[#2fe3ac]": isPositive,
+            "text-[rgb(236,56,122)]": !isPositive,
           })}
         >
           {formatPercentage(change)}

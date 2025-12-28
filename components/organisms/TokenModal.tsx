@@ -54,7 +54,7 @@ export function TokenModal() {
           </div>
           <div className="flex justify-between">
             <span className="text-gray-400">Price Change (1h):</span>
-            <span className={token.priceChange["1h"] >= 0 ? "text-green-400" : "text-red-400"}>
+            <span className={token.priceChange["1h"] >= 0 ? "text-[#2fe3ac]" : "text-[#a92d5b]"}>
               {token.priceChange["1h"] >= 0 ? "+" : ""}
               {token.priceChange["1h"].toFixed(2)}%
             </span>
