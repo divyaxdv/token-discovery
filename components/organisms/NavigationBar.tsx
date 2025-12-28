@@ -56,16 +56,18 @@ export const NavigationBar = memo(function NavigationBar({
           </div>
           
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-400">
-              <span className="hidden sm:inline">||</span>
+            <div className="flex items-center gap-1 text-xs sm:text-sm">
+              <span className="hidden sm:inline text-gray-400">||</span>
               {timePeriods.map((tp) => (
                 <Button
                   key={tp.key}
-                  variant={timePeriod === tp.key ? "default" : "ghost"}
+                  variant="ghost"
                   size="sm"
                   className={cn(
                     "text-xs px-2",
-                    timePeriod === tp.key && "bg-blue-600 hover:bg-blue-700",
+                    timePeriod === tp.key 
+                      ? "text-blue-500 bg-transparent hover:bg-transparent" 
+                      : "text-white bg-transparent hover:bg-transparent",
                     tp.hidden && "hidden sm:inline-block"
                   )}
                   onClick={() => onTimePeriodChange(tp.key)}
