@@ -35,10 +35,10 @@ export const NavigationBar = memo(function NavigationBar({
   ];
 
   return (
-    <div className="border-b border-gray-800 bg-[#0a0a0a]">
-      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+    <div className="bg-[#0a0a0a]">
+      <div className="w-full max-w-full px-1 sm:px-2 md:px-4 lg:px-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 py-3 sm:py-4">
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {filters.map((f) => (
               <Button
                 key={f.key}
@@ -48,7 +48,7 @@ export const NavigationBar = memo(function NavigationBar({
                 aria-label={`Filter by ${f.label}`}
                 aria-pressed={filter === f.key}
                 className={cn(
-                  "text-[10px] sm:text-xs md:text-sm touch-manipulation min-h-[32px] sm:min-h-[36px] px-2 sm:px-3 bg-transparent hover:bg-transparent",
+                  "text-sm sm:text-base md:text-lg font-medium touch-manipulation min-h-[36px] sm:min-h-[40px] px-2 sm:px-3 bg-transparent hover:bg-transparent",
                   filter === f.key 
                     ? "text-white" 
                     : "text-gray-500 hover:text-gray-400"
@@ -59,9 +59,9 @@ export const NavigationBar = memo(function NavigationBar({
             ))}
           </div>
           
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs md:text-sm">
-              <span className="hidden sm:inline text-gray-400">||</span>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="hidden sm:inline text-gray-400 text-base">||</span>
               {timePeriods.map((tp) => (
                 <Button
                   key={tp.key}
@@ -70,7 +70,7 @@ export const NavigationBar = memo(function NavigationBar({
                   aria-label={`Set time period to ${tp.label}`}
                   aria-pressed={timePeriod === tp.key}
                   className={cn(
-                    "text-[10px] sm:text-xs px-1.5 sm:px-2 touch-manipulation min-h-[32px] sm:min-h-[36px]",
+                    "text-sm sm:text-base md:text-lg font-medium px-2 sm:px-3 touch-manipulation min-h-[36px] sm:min-h-[40px]",
                     timePeriod === tp.key 
                       ? "text-blue-500 bg-transparent hover:bg-transparent" 
                       : "text-white bg-transparent hover:bg-transparent",
@@ -88,4 +88,3 @@ export const NavigationBar = memo(function NavigationBar({
     </div>
   );
 });
-

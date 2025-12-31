@@ -1,7 +1,6 @@
 "use client";
 
 import { memo } from "react";
-import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SortField } from "@/types/token";
 
@@ -53,22 +52,7 @@ export const TableHeader = memo(function TableHeader({
       aria-label={ariaLabel || (canSort ? `${label}, click to sort${isActive ? `, currently sorted ${sortOrder === "asc" ? "ascending" : "descending"}` : ""}` : label || undefined)}
       scope="col"
     >
-      <div className="flex items-center gap-2">
-        <span>{label}</span>
-        {canSort && (
-          <span aria-hidden="true">
-            {isActive ? (
-              sortOrder === "asc" ? (
-                <ArrowUp className="h-3 w-3" />
-              ) : (
-                <ArrowDown className="h-3 w-3" />
-              )
-            ) : (
-              <ArrowUpDown className="h-3 w-3 opacity-50" />
-            )}
-          </span>
-        )}
-      </div>
+      <span>{label}</span>
     </th>
   );
 });

@@ -5,6 +5,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Token } from "@/types/token";
 import { Pill } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TokenImageProps {
   token: Token;
@@ -12,56 +17,133 @@ interface TokenImageProps {
   className?: string;
 }
 
+// Only yellow or green border colors
+const BORDER_COLORS = {
+  green: "#2fe3ac", // Green for positive/up trend
+  yellow: "#FFD700", // Yellow/gold for neutral/down trend
+};
+
 /**
- * Generate a consistent random color based on token ID
+ * Get border color based on token trend - only yellow or green
  */
-function getRandomBorderColor(tokenId: string): string {
-  // Simple hash function to generate consistent color from token ID
-  let hash = 0;
-  for (let i = 0; i < tokenId.length; i++) {
-    hash = tokenId.charCodeAt(i) + ((hash << 5) - hash);
+function getBorderColor(token: Token): string {
+  // Green for positive trend, yellow for neutral/negative
+  if (token.trend === "up" || (token.priceChange?.["1h"] ?? 0) > 0) {
+    return BORDER_COLORS.green;
   }
-
-  // Generate vibrant colors (avoiding too dark colors)
-  const hue = Math.abs(hash) % 360;
-  const saturation = 60 + (Math.abs(hash) % 30); // 60-90% saturation
-  const lightness = 50 + (Math.abs(hash) % 20); // 50-70% lightness
-
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  return BORDER_COLORS.yellow;
 }
 
 /**
- * Token image with trend indicator badge
+ * Generate mock similar token based on current token
+ */
+function getSimilarToken(token: Token) {
+  const names = ["FIRST", "MOON", "DOGE", "PEPE", "SHIB", "BONK"];
+  const ages = ["1y", "6m", "3m", "2y", "8m"];
+
+  // Use token id to generate consistent similar token
+  let hash = 0;
+  for (let i = 0; i < token.id.length; i++) {
+    hash = token.id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  return {
+    name: names[Math.abs(hash) % names.length],
+    age: ages[Math.abs(hash >> 4) % ages.length],
+    marketCap: `${Math.floor(100 + (Math.abs(hash) % 900))}K`,
+    image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.abs(hash)}`,
+  };
+}
+
+/**
+ * Token image with trend indicator badge and hover preview
  */
 export const TokenImage = memo(function TokenImage({
   token,
   size = 40,
   className,
 }: TokenImageProps) {
-  // Generate consistent border color based on token ID
-  const borderColor = useMemo(() => getRandomBorderColor(token.id), [token.id]);
+  // Get border color based on trend - only yellow or green
+  const borderColor = useMemo(() => getBorderColor(token), [token]);
+  const similarToken = useMemo(() => getSimilarToken(token), [token]);
 
   return (
     <div className={cn("relative w-full h-full", className)}>
-      <div
-        className="rounded border-2 p-0.5 w-full h-full"
-        style={{ borderColor: borderColor }}
-      >
-        <Image
-          src={token.image}
-          alt={token.name}
-          width={size}
-          height={size}
-          loading="lazy"
-          fetchPriority="low"
-          decoding="async"
-          unoptimized
-          className="rounded w-full h-full object-cover"
-        />
-      </div>
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>
+          <div
+            className="rounded border p-0.5 w-full h-full cursor-pointer"
+            style={{ borderColor: borderColor }}
+          >
+            <Image
+              src={token.image}
+              alt={token.name}
+              width={size}
+              height={size}
+              loading="lazy"
+              fetchPriority="low"
+              decoding="async"
+              unoptimized
+              className="rounded w-full h-full object-cover"
+            />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent
+          side="bottom"
+          sideOffset={8}
+          collisionPadding={20}
+          className="p-0 bg-[#1a1a1a] border border-gray-700/50 shadow-2xl shadow-black/50 w-[280px]"
+        >
+          {/* Large token image */}
+          <div className="p-2">
+            <Image
+              src={token.image}
+              alt={`${token.name} preview`}
+              width={260}
+              height={260}
+              unoptimized
+              className="rounded-lg object-cover w-full"
+            />
+          </div>
+
+          {/* Similar Tokens section */}
+          <div className="px-3 pb-3">
+            <p className="text-gray-400 text-sm mb-2">Similar Tokens</p>
+
+            {/* Similar token row */}
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#252525] border border-gray-700/30">
+              <Image
+                src={similarToken.image}
+                alt={similarToken.name}
+                width={40}
+                height={40}
+                unoptimized
+                className="rounded-lg object-cover"
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-white font-semibold text-sm">
+                    {similarToken.name}
+                  </span>
+                  <span className="text-yellow-400 text-xs">
+                    {similarToken.age}
+                  </span>
+                </div>
+                <div className="text-gray-400 text-xs">
+                  TX: {similarToken.age}
+                </div>
+              </div>
+              <div className="text-[#2fe3ac] font-semibold text-sm">
+                {similarToken.marketCap}
+              </div>
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+
       {/* Pill icon badge - bottom right */}
       <div
-        className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 flex items-center justify-center bg-white/10 backdrop-blur-sm"
+        className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border flex items-center justify-center bg-white/10 backdrop-blur-sm pointer-events-none"
         style={{ borderColor: borderColor }}
         aria-hidden="true"
       >

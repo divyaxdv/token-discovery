@@ -96,3 +96,33 @@ body {
   animation: shimmer 2s infinite;
 }
 
+/* Sparkline animations - matches Recharts 300ms animation */
+@keyframes sparkline-draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sparkline-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-sparkline-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: sparkline-draw 300ms ease-out forwards;
+}
+
+.animate-sparkline-area {
+  opacity: 0;
+  animation: sparkline-fade-in 300ms ease-out forwards;
+}
+

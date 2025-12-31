@@ -1,29 +1,18 @@
 "use client";
 
 import { memo, useMemo } from "react";
-import dynamic from "next/dynamic";
 import { Token } from "@/types/token";
 import { TokenImage } from "@/components/molecules/TokenImage";
 import { PriceDisplay } from "@/components/molecules/PriceDisplay";
 import { TransactionDisplay } from "@/components/molecules/TransactionDisplay";
 import { TokenInfo } from "@/components/molecules/TokenInfo";
+import { MiniChart } from "@/components/molecules/Sparkline"; // Lightweight replacement (~2KB vs ~200KB)
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setHoveredToken } from "@/store/slices/uiSlice";
 import { setSelectedToken, setModalOpen } from "@/store/slices/uiSlice";
-
-// Lazy load MiniChart - Recharts is heavy (~200KB)
-const MiniChart = dynamic(
-  () => import("@/components/molecules/MiniChart").then((mod) => mod.MiniChart),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-8 w-16 sm:h-9 sm:w-18 md:h-10 md:w-20 bg-gray-800/50 rounded animate-pulse" />
-    ),
-  }
-);
-import { Clipboard, Globe, Search, Eye, Users } from "lucide-react";
+import { Copy, Globe, Search, Eye, Users, Paperclip } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -102,7 +91,7 @@ export const TokenTableRow = memo(function TokenTableRow({
                     aria-label="Copy contract address"
                     className="text-gray-500 hover:text-gray-400 transition-colors min-h-0 min-w-0"
                   >
-                    <Clipboard className="h-4 w-4 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                    <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>Copy contract address</TooltipContent>
@@ -133,6 +122,17 @@ export const TokenTableRow = memo(function TokenTableRow({
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>View website</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    aria-label="Attach"
+                    className="text-gray-500 hover:text-gray-400 transition-colors sm:inline-flex touch-manipulation min-h-0 min-w-0"
+                  >
+                    <Paperclip className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Attach</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
