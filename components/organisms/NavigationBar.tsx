@@ -22,9 +22,9 @@ export const NavigationBar = memo(function NavigationBar({
 }: NavigationBarProps) {
   const filters = [
     { key: "all" as const, label: "Top" },
-    { key: "new" as const, label: "New Pairs" },
-    { key: "final" as const, label: "Final Stretch" },
-    { key: "migrated" as const, label: "Migrated" },
+    { key: "new" as const, label: "Trending" },
+    { key: "final" as const, label: "Surge" },
+    { key: "migrated" as const, label: "DEX Screener" },
   ];
 
   const timePeriods: Array<{ key: "1m" | "5m" | "30m" | "1h"; label: string; hidden?: boolean }> = [
@@ -42,12 +42,16 @@ export const NavigationBar = memo(function NavigationBar({
             {filters.map((f) => (
               <Button
                 key={f.key}
-                variant={filter === f.key ? "default" : "ghost"}
+                variant="ghost"
                 size="sm"
                 onClick={() => onFilterChange(f.key)}
+                aria-label={`Filter by ${f.label}`}
+                aria-pressed={filter === f.key}
                 className={cn(
-                  "text-[10px] sm:text-xs md:text-sm touch-manipulation min-h-[32px] sm:min-h-[36px] px-2 sm:px-3",
-                  filter === f.key && "bg-blue-600 hover:bg-blue-700"
+                  "text-[10px] sm:text-xs md:text-sm touch-manipulation min-h-[32px] sm:min-h-[36px] px-2 sm:px-3 bg-transparent hover:bg-transparent",
+                  filter === f.key 
+                    ? "text-white" 
+                    : "text-gray-500 hover:text-gray-400"
                 )}
               >
                 {f.label}
@@ -63,6 +67,8 @@ export const NavigationBar = memo(function NavigationBar({
                   key={tp.key}
                   variant="ghost"
                   size="sm"
+                  aria-label={`Set time period to ${tp.label}`}
+                  aria-pressed={timePeriod === tp.key}
                   className={cn(
                     "text-[10px] sm:text-xs px-1.5 sm:px-2 touch-manipulation min-h-[32px] sm:min-h-[36px]",
                     timePeriod === tp.key 

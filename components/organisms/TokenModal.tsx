@@ -62,6 +62,7 @@ export function TokenModal() {
           <div className="pt-4">
             <button
               onClick={handleClose}
+              aria-label={`Confirm purchase of ${token.name}`}
               className="w-full px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
             >
               Confirm Purchase

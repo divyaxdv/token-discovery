@@ -12,6 +12,7 @@ interface TableHeaderProps {
   sortOrder?: "asc" | "desc";
   onSort?: (key: SortField) => void;
   className?: string;
+  "aria-label"?: string;
 }
 
 /**
@@ -24,6 +25,7 @@ export const TableHeader = memo(function TableHeader({
   sortOrder,
   onSort,
   className,
+  "aria-label": ariaLabel,
 }: TableHeaderProps) {
   const isActive = sortKey && currentSort === sortKey;
   const canSort = sortKey && onSort;
@@ -34,6 +36,11 @@ export const TableHeader = memo(function TableHeader({
     }
   };
 
+  const getAriaSort = () => {
+    if (!isActive) return undefined;
+    return sortOrder === "asc" ? "ascending" : "descending";
+  };
+
   return (
     <th
       className={cn(
@@ -42,9 +49,25 @@ export const TableHeader = memo(function TableHeader({
         className
       )}
       onClick={handleClick}
+      aria-sort={canSort ? (getAriaSort() || "none") : undefined}
+      aria-label={ariaLabel || (canSort ? `${label}, click to sort${isActive ? `, currently sorted ${sortOrder === "asc" ? "ascending" : "descending"}` : ""}` : label || undefined)}
+      scope="col"
     >
       <div className="flex items-center gap-2">
         <span>{label}</span>
+        {canSort && (
+          <span aria-hidden="true">
+            {isActive ? (
+              sortOrder === "asc" ? (
+                <ArrowUp className="h-3 w-3" />
+              ) : (
+                <ArrowDown className="h-3 w-3" />
+              )
+            ) : (
+              <ArrowUpDown className="h-3 w-3 opacity-50" />
+            )}
+          </span>
+        )}
       </div>
     </th>
   );

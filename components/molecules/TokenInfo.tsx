@@ -49,18 +49,24 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
       return (
         <Popover open={isOpen} onOpenChange={() => {}}>
           <PopoverTrigger asChild>
-            <div
+            <button
+              type="button"
+              aria-label={`View details for ${label}`}
+              aria-expanded={isOpen}
               onMouseEnter={() => setOpenPopover(label)}
               onMouseLeave={() => setOpenPopover(null)}
+              className=""
             >
               {content}
-            </div>
+            </button>
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
             className="w-auto p-1.5 bg-black border-0 shadow-none"
             onMouseEnter={() => setOpenPopover(label)}
             onMouseLeave={() => setOpenPopover(null)}
+            role="tooltip"
+            aria-label={`${label} details`}
           >
             {popoverContent}
           </PopoverContent>
@@ -148,20 +154,25 @@ export const TokenInfo = memo(function TokenInfo({ token, className }: TokenInfo
         />
         <Popover open={openPopover === "DEX paid"} onOpenChange={() => {}}>
           <PopoverTrigger asChild>
-            <span 
+            <button
+              type="button"
+              aria-label={`DEX payment status: ${token.paid ? "Paid" : "Unpaid"}`}
+              aria-expanded={openPopover === "DEX paid"}
               className={cn("flex items-center gap-1 px-2 py-1 rounded border border-gray-700/20 cursor-pointer", token.paid ? "text-[#11af80]" : "text-red-500")}
               onMouseEnter={() => setOpenPopover("DEX paid")}
               onMouseLeave={() => setOpenPopover(null)}
             >
               <BadgeCheck className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
               {token.paid ? "Paid" : "Unpaid"}
-            </span>
+            </button>
           </PopoverTrigger>
           <PopoverContent 
             side="top" 
             className="w-auto p-1.5 bg-black border-0 shadow-none"
             onMouseEnter={() => setOpenPopover("DEX paid")}
             onMouseLeave={() => setOpenPopover(null)}
+            role="tooltip"
+            aria-label="DEX payment status details"
           >
             {token.paid ? (
               <div className="flex flex-col items-center gap-1">
